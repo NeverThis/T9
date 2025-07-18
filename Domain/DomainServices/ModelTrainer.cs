@@ -1,14 +1,8 @@
 ﻿using Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.DomainServices
 {
-    internal class ModelTrainer
+    public class ModelTrainer
     {
         private readonly ICorpusSource _source;
         private readonly IProcessor _processor;
@@ -19,12 +13,12 @@ namespace Domain.DomainServices
             _processor = processor;
         }
 
-        public void ReadSliding(int windowSize)
+        public void TrainModel(int ngram)
         {
-            var buffer = new char[windowSize];
-            int filled = _source.ReadBlock(buffer, 0, windowSize);
+            var buffer = new char[ngram];
+            int filled = _source.ReadBlock(buffer, 0, ngram);
 
-            if (filled < windowSize)
+            if (filled < ngram)
                 return;
 
             _processor.Process(buffer.AsSpan());
@@ -33,7 +27,16 @@ namespace Domain.DomainServices
             while ((nextChar = _source.Read()) != -1)
             {
                 buffer.AsSpan(1).CopyTo(buffer);
-                buffer[windowSize - 1] = (char)nextChar;
+                buffer[ngram - 1] = (char)nextChar;
+
+                _processor.Process(buffer.AsSpan());
+            }
+
+            // Process any remaining buffer content after EOF
+            for (int i = 1; i < ngram; i++)
+            {
+                buffer.AsSpan(1).CopyTo(buffer);
+                buffer[ngram - 1] = '\0';
 
                 _processor.Process(buffer.AsSpan());
             }

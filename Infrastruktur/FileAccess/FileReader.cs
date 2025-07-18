@@ -3,9 +3,24 @@ using System.IO;
 
 namespace Infrastruktur.FileAccess
 {
-    internal class FileReader(string filePath) : IDisposable, ICorpusSource
+    public class FileReader : IDisposable, ICorpusSource
     {
-        private readonly StreamReader _reader = new(filePath);
+        private readonly StreamReader _reader;
+
+        public FileReader(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new ArgumentException("File path cannot be null or whitespace!", nameof(filePath));
+
+            try
+            {
+                _reader = new StreamReader(filePath);
+            }
+            catch (Exception ex)
+            {
+                throw new IOException($"Failed to open the file '{filePath}'!", ex);
+            }
+        }
 
         public int ReadBlock(char[] buffer, int offset, int count)
         {

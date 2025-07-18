@@ -15,4 +15,9 @@
     <Folder Include="Views\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Infrastruktur\Infrastruktur.csproj" />
+  </ItemGroup>
+
 </Project>

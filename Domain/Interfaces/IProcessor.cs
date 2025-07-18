@@ -1,6 +1,6 @@
 ﻿namespace Domain.Interfaces
 {
-    internal interface IProcessor
+    public interface IProcessor
     {
         void Process(ReadOnlySpan<char> window);
     }
