@@ -1,23 +1,25 @@
 ﻿using Domain.Interfaces;
+using System.Text.Json.Serialization;
 
 namespace Domain.ValueObjects.Trees
 {
-    public class NGram((int, double) rootValue) : Tree<(int, double), char>(rootValue), IProcessor
+    public class NGram(ModelData rootValue) : Tree<ModelData, char>(rootValue), IProcessor
     {
+
         public void Process(ReadOnlySpan<char> window)
         {
             var currentNode = Root;
-            Root.Value = (Root.Value.Item1 + 1, Root.Value.Item2);
+            Root.Value.Occurrences++;
 
             foreach (char c in window)
             {
                 if (!currentNode.Children.TryGetValue(c, out var child))
                 {
-                    child = new Node<(int, double), char>((0, Double.NaN), currentNode);
+                    child = new Node<ModelData, char>(new ModelData(), currentNode);
                     currentNode.Children[c] = child;
                 }
 
-                child.Value = (child.Value.Item1 + 1, child.Value.Item2);
+                child.Value.Occurrences++;
                 currentNode = child;
             }
         }
@@ -37,18 +39,18 @@ namespace Domain.ValueObjects.Trees
             if (!currentNode.Children.TryGetValue(charToEvaluate, out var targetNode))
                 return double.NaN;
 
-            var (count, probability) = targetNode.Value;
-            if (double.IsNaN(probability))
+            if (double.IsNaN(targetNode.Value.Probability))
             {
-                var parentCount = targetNode.Parent?.Value.Item1 ?? 0;
+                var parentCount = targetNode.Parent?.Value.Occurrences ?? 0;
                 if (parentCount == 0)
                     return double.NaN;
 
-                probability = count / (double)parentCount;
-                targetNode.Value = (count, probability);
+                targetNode.Value.Probability = targetNode.Value.Occurrences / (double)parentCount;
             }
 
-            return probability;
+            return targetNode.Value.Probability;
         }
+
+        public ModelData RootValue => base.RootValue;
     }
 }

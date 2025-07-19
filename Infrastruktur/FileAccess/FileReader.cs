@@ -32,6 +32,24 @@ namespace Infrastruktur.FileAccess
             return _reader.Read();
         }
 
+        public string ReadFully()
+        {
+            try
+            {
+                return _reader.ReadToEnd();
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.Error.WriteLine($"File not found: {ex.Message}");
+                throw;
+            }
+            catch (IOException ex)
+            {
+                Console.Error.WriteLine($"IO error reading: {ex.Message}");
+                throw;
+            }
+        }
+
         public void Dispose()
         {
             _reader.Dispose();

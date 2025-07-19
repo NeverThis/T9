@@ -6,8 +6,20 @@ using System.Threading.Tasks;
 
 namespace Domain.ValueObjects.Trees
 {
-    public class Tree<T, TKey>(T rootValue) where TKey : notnull
+    public class Tree<T, TKey> where TKey : notnull
     {
-        public Node<T, TKey> Root { get; } = new Node<T, TKey>(rootValue, null);
+        public Tree()
+        {
+            Root = new Node<T, TKey>();
+        }
+
+        public Tree(T rootValue)
+        {
+            RootValue = rootValue;
+            Root = new Node<T, TKey>(rootValue, null);
+        }
+
+        public T RootValue { get; set; } = default!;
+        public Node<T, TKey> Root { get; set; } = default!;
     }
 }

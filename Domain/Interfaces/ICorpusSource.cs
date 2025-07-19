@@ -5,5 +5,7 @@
         int ReadBlock(char[] buffer, int offset, int count);
 
         int Read();
+
+        string ReadFully();
     }
 }
