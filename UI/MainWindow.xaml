@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
+        xmlns:viewModel="clr-namespace:UI.ViewModels"
         mc:Ignorable="d"
         Height="500" 
         Width="800"
@@ -11,8 +12,13 @@
         ResizeMode="NoResize"
         Background="Transparent"
         AllowsTransparency="True">
-    <Border Background="#2C3E50"
-        CornerRadius="25">
+
+    <Window.DataContext>
+        <viewModel:MainViewModel/>
+    </Window.DataContext>
+
+    <Border Background="#2C3539"
+            CornerRadius="25">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250"/>
@@ -24,43 +30,40 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <!-- Horizontal border below first row -->
-            <Rectangle Grid.ColumnSpan="2"
-                       Grid.Row="0"
-                       VerticalAlignment="Bottom"
-                       Height="2"
-                       Fill="#0E1E2B"/>
-
             <!-- The application name -->
             <TextBlock Text="T9"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   Foreground="White"
+                   Foreground="Ivory"
                    FontSize="26"/>
 
             <!-- The menu -->
-            <Border Grid.Row="1" BorderBrush="#0E1E2B" BorderThickness="0,0,1,0">
-                <StackPanel>
-                    <RadioButton Content="Texting"
-                                 Height="50"
-                                 Foreground="White"
-                                 FontSize="16"
-                                 IsChecked="True"
-                                 Style="{StaticResource MenuButton}"/>
+            <StackPanel Grid.Row="1">
+                <RadioButton Content="Texting"
+                             Height="50"
+                             Foreground="Ivory"
+                             FontSize="16"
+                             Style="{StaticResource MenuButton}"/>  
 
-                    <RadioButton Content="Language Model"
-                                 Height="50"
-                                 Foreground="White"
-                                 FontSize="16"
-                                 Style="{StaticResource MenuButton}"/>
+                <RadioButton Content="Language Model"
+                             Height="50"
+                             Foreground="Ivory"
+                             FontSize="16"
+                             Style="{StaticResource MenuButton}"/>
 
-                    <RadioButton Content="Settings"
-                                 Height="50"
-                                 Foreground="White"
-                                 FontSize="16"
-                                 Style="{StaticResource MenuButton}"/>
-                </StackPanel>
-            </Border>
+                <RadioButton Content="Settings"
+                             Height="50"
+                             Foreground="Ivory"
+                             FontSize="16"
+                             IsChecked="True"
+                             Style="{StaticResource MenuButton}"/>
+            </StackPanel>
+
+            <ContentControl Grid.Row="1" 
+                            Grid.Column="1"
+                            Margin="10"
+                            Content="{Binding CurrentView}">
+            </ContentControl>
         </Grid>
     </Border>
 </Window>
