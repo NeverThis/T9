@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
         xmlns:viewModel="clr-namespace:UI.ViewModels"
+        xmlns:views="clr-namespace:UI.Views"
         mc:Ignorable="d"
         Height="500" 
         Width="800"
@@ -29,6 +30,10 @@
                 <RowDefinition Height="60"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+
+            <views:LoadingView Grid.Row="0"
+                               Grid.Column="2"
+                               DataContext="{Binding LoadingVM}"/>
 
             <!-- The application name -->
             <TextBlock Text="T9"
