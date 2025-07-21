@@ -34,5 +34,17 @@ namespace UI.Properties {
                 this["ModelFilePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public uint NGram {
+            get {
+                return ((uint)(this["NGram"]));
+            }
+            set {
+                this["NGram"] = value;
+            }
+        }
     }
 }

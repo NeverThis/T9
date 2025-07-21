@@ -128,11 +128,11 @@ namespace UI.Views
                 sineWave = new Polyline
                 {
                     Stroke = Brushes.Ivory,
-                    StrokeThickness = 2,
-                    Opacity = 0.2
+                    StrokeThickness = 3,
+                    Opacity = 0.4
                 };
 
-                points = new PointCollection();
+                points = [];
                 sineWave.Points = points;
                 WaveCanvas.Children.Add(sineWave);
             }
@@ -148,16 +148,19 @@ namespace UI.Views
 
             InitializeSineWave();
 
-            double amplitude = 20;
+            double baseAmplitude = 15;
+            double pulseSpeed = 0.65;
+            double animatedAmplitude = baseAmplitude + (baseAmplitude * 0.5 * Math.Sin(phaseShift * pulseSpeed));
+
             double frequency = 0.05;
             double xMax = WaveCanvas.ActualWidth;
             double yCenter = WaveCanvas.ActualHeight / 2;
 
             points!.Clear();
 
-            for (double x = 0; x <= xMax; x += 10)
+            for (double x = 0; x <= xMax; x += 4)
             {
-                double y = yCenter + amplitude * Math.Sin(frequency * x + phaseShift);
+                double y = yCenter + animatedAmplitude * Math.Sin(frequency * x + phaseShift);
                 points.Add(new Point(x, y));
             }
         }

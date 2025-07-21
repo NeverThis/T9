@@ -10,8 +10,6 @@ namespace UI.ViewModels
         {
             SettingsVM = new SettingsViewModel();
             _currentView = SettingsVM;
-
-            LoadingVM.IsAnimating = true;
         }
 
         public object CurrentView
@@ -25,7 +23,5 @@ namespace UI.ViewModels
         }
 
         public SettingsViewModel SettingsVM { get; set; }
-
-        public LoadingViewModel LoadingVM { get; } = new LoadingViewModel();
     }
 }

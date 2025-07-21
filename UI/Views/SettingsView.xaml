@@ -12,34 +12,96 @@
         <viewModel:SettingsViewModel />
     </UserControl.DataContext>
 
-    <StackPanel Margin="20" Orientation="Vertical">
-        <!-- File types -->
-        <TextBlock Text="Allowed File Types:" 
-                   Margin="0,0,0,5"
-                   Foreground="Ivory"
-                   FontSize="14"/>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
 
-        <ComboBox ItemsSource="{Binding AllowedFileTypes}" 
-                  SelectedItem="{Binding SelectedFileType}" 
-                  Width="150"
-                  HorizontalAlignment="Left"
-                  Margin="0,0,0,10"
-                  IsEnabled="False"/>
+        <!-- Main content -->
+        <StackPanel Orientation="Vertical" Grid.Row="0">
+            <!-- File types -->
+            <TextBlock Text="Preferred (Model) File Format:" 
+                       Margin="0,0,0,5"
+                       Foreground="Ivory"
+                       FontSize="14"/>
 
-        <TextBlock Text="Select a File Path:" 
-                   Margin="0,0,0,5" 
-                   Foreground="Ivory"
-                   FontSize="14"/>
+            <ComboBox ItemsSource="{Binding AllowedFileTypes}" 
+                      SelectedItem="{Binding SelectedFileType}" 
+                      Width="150"
+                      HorizontalAlignment="Left"
+                      Margin="0,0,0,10"
+                      IsEnabled="False"/>
 
-        <!-- Actual path -->
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBox Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}" 
-                     Width="300" 
-                     Margin="0,0,10,0"
-                     IsEnabled="False"/>
-            <Button Content="Browse..." 
-                    Command="{Binding BrowseCommand}" 
-                    Width="100"/>
+            <TextBlock Text="Pick a Spot for Your (Trained) Model:" 
+                       Margin="0,0,0,5" 
+                       Foreground="Ivory"
+                       FontSize="14"/>
+
+            <!-- Actual path -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBox Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}" 
+                         Width="300" 
+                         Margin="0,0,10,0"
+                         IsEnabled="False"
+                         Padding="5,0,0,0">
+                    <TextBox.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+                
+                <Button Content="Browse..." 
+                        Command="{Binding BrowseCommand}" 
+                        Width="100">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+
+            <TextBlock Text="Chosen N-Gram:" 
+                       Margin="0,0,0,5" 
+                       Foreground="Ivory"
+                       FontSize="14"/>
+            
+            <!-- Slider -->
+            <Slider x:Name="ValueSlider"
+                    Minimum="1"
+                    Maximum="8"
+                    TickFrequency="1"
+                    TickPlacement="BottomRight"
+                    AutoToolTipPlacement="BottomRight"
+                    AutoToolTipPrecision="0"
+                    IsSnapToTickEnabled="True"
+                    IsMoveToPointEnabled="False"
+                    Value="{Binding SliderValue, Mode=TwoWay}"
+                    Margin="0,0,0,10"
+                    Foreground="Ivory"
+                    Width="325"
+                    HorizontalAlignment="Left"/>
+
+            <!-- Reload Button -->
+            <Button x:Name="ReloadButton"
+                    Content="Reload"
+                    Style="{StaticResource PulseButtonStyle}"
+                    Command="{Binding ReloadCommand}"
+                    Margin="0,15,0,0"
+                    Height="30"
+                    Width="100"
+                    HorizontalAlignment="Left">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </StackPanel>
-    </StackPanel>
+
+        <local:LoadingView DataContext="{Binding LoadingVM}"
+                           Grid.Row="1"/>
+    </Grid>
 </UserControl>

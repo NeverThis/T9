@@ -22,7 +22,7 @@
             CornerRadius="25">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="200"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
@@ -30,10 +30,6 @@
                 <RowDefinition Height="60"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
-            <views:LoadingView Grid.Row="0"
-                               Grid.Column="2"
-                               DataContext="{Binding LoadingVM}"/>
 
             <!-- The application name -->
             <TextBlock Text="T9"
