@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Domain.DomainServices.Json
+namespace Infrastructure.InfrastructureServices.Json
 {
     public class JsonSerializationService : ISerializer
     {

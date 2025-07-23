@@ -1,11 +1,9 @@
 ﻿using Domain.Interfaces;
-using System.Text.Json.Serialization;
 
 namespace Domain.ValueObjects.Trees
 {
     public class NGram(ModelData rootValue) : Tree<ModelData, char>(rootValue), IProcessor
     {
-
         public void Process(ReadOnlySpan<char> window)
         {
             var currentNode = Root;
@@ -51,6 +49,6 @@ namespace Domain.ValueObjects.Trees
             return targetNode.Value.Probability;
         }
 
-        public ModelData RootValue => base.RootValue;
+        public new ModelData RootValue => base.RootValue;
     }
 }

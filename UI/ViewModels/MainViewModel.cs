@@ -1,4 +1,5 @@
-﻿using UI.Helpers;
+﻿using Infrastructure.Repositories;
+using UI.Helpers;
 
 namespace UI.ViewModels
 {
@@ -8,7 +9,7 @@ namespace UI.ViewModels
 
         public MainViewModel()
         {
-            SettingsVM = new SettingsViewModel();
+            SettingsVM = new SettingsViewModel(new SettingsRepository());
             _currentView = SettingsVM;
         }
 

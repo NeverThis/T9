@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using Infrastructure.Repositories;
+using System.Windows.Controls;
+using UI.ViewModels;
 
 namespace UI.Views
 {

@@ -50,9 +50,6 @@ namespace Infrastruktur.FileAccess
             }
         }
 
-        public void Dispose()
-        {
-            _reader.Dispose();
-        }
+        public void Dispose() => _reader.Dispose();
     }
 }

@@ -1,13 +1,10 @@
-﻿using Domain.Interfaces;
-using System;
-using System.IO;
-using System.Windows.Shapes;
+﻿using System.IO;
 
 namespace Infrastruktur.FileAccess
 {
-    public class FileWriter : IModelStorage<string>
+    public class FileWriter
     {
-        public void Store(string location, string content)
+        public static void Store(string location, string content)
         {
             try
             {

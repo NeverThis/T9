@@ -8,5 +8,8 @@
     <Setting Name="NGram" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="ModelFileType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">JSON</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

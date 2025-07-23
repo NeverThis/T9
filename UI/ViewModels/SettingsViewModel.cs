@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Domain.Interfaces;
+using Microsoft.Win32;
 using UI.Helpers;
 
 namespace UI.ViewModels
@@ -11,13 +12,18 @@ namespace UI.ViewModels
 
         private bool _modificationsMade;
 
-        public SettingsViewModel()
-        {
-            _filePath = Properties.Settings.Default.ModelFilePath;
-            _sliderValue = Properties.Settings.Default.NGram;
+        private readonly ISettingsRepository _settingsService;
 
-            AllowedFileTypes = ["JSON"]; // I may have to rethink this if I plan to add "proper" support later.
-            _selectedFileType = AllowedFileTypes.First();
+        public SettingsViewModel(ISettingsRepository settingsService)
+        {
+            _settingsService = settingsService;
+
+            _filePath = _settingsService.GetModelFilePath();
+            _sliderValue = _settingsService.GetNGram();
+            _selectedFileType = _settingsService.GetModelFileType();
+
+            AllowedFileTypes = ["JSON"];
+            SelectedFileType = _selectedFileType;
 
             BrowseCommand = new RelayCommand(_ => OpenFileDialog());
             ReloadCommand = new RelayCommand(_ => OnReload());
@@ -42,6 +48,9 @@ namespace UI.ViewModels
                 if (_selectedFileType != value)
                 {
                     _selectedFileType = value;
+                    ModificationsMade = true;
+
+                    _settingsService.SetModelFileType(value);
                     OnPropertyChanged();
                 }
             }
@@ -57,8 +66,7 @@ namespace UI.ViewModels
                     _sliderValue = value;
                     ModificationsMade = true;
 
-                    SaveSetting(nameof(Properties.Settings.Default.NGram), _sliderValue);
-
+                    _settingsService.SetNGram(value);
                     OnPropertyChanged();
                 }
             }
@@ -98,7 +106,7 @@ namespace UI.ViewModels
             if (dialog.ShowDialog() == true)
             {
                 FilePath = dialog.FileName;
-                SaveSetting(nameof(Properties.Settings.Default.ModelFilePath), FilePath);
+                _settingsService.SetModelFilePath(FilePath);
             }
         }
 
@@ -108,11 +116,11 @@ namespace UI.ViewModels
             ModificationsMade = false;
         }
 
-        private void SaveSetting(string settingName, object value)
+        private void SaveSettings()
         {
-            var settings = Properties.Settings.Default;
-            settings[settingName] = value;
-            settings.Save();
+            _settingsService.SetModelFilePath(FilePath);
+            _settingsService.SetNGram(SliderValue);
+            _settingsService.SetModelFileType(SelectedFileType);
         }
     }
 }
