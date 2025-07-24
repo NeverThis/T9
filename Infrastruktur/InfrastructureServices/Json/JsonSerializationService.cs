@@ -1,4 +1,4 @@
-﻿using Domain.Interfaces;
+﻿using Infrastructure.Interfaces;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
