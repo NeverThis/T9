@@ -1,6 +1,4 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 
 namespace UI
 {
@@ -9,6 +7,6 @@ namespace UI
     /// </summary>
     public partial class App : Application
     {
-    }
 
+    }
 }

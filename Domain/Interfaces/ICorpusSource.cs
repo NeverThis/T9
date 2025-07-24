@@ -2,7 +2,7 @@
 {
     public interface ICorpusSource
     {
-        int ReadBlock(char[] buffer, int offset, int count);
+        int ReadBlock(char[] buffer, int offset, uint count);
 
         int Read();
 

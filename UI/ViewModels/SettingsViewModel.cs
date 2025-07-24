@@ -9,14 +9,16 @@ namespace UI.ViewModels
         private string _filePath;
         private string _selectedFileType;
         private uint _sliderValue;
-
         private bool _modificationsMade;
 
         private readonly ISettingsRepository _settingsService;
 
-        public SettingsViewModel(ISettingsRepository settingsService)
+        private readonly Action _reloadModelCallback;
+
+        public SettingsViewModel(ISettingsRepository settingsService, Action reloadModelCallback)
         {
             _settingsService = settingsService;
+            _reloadModelCallback = reloadModelCallback;
 
             _filePath = _settingsService.GetModelFilePath();
             _sliderValue = _settingsService.GetNGram();
@@ -36,6 +38,8 @@ namespace UI.ViewModels
             {
                 _filePath = value;
                 ModificationsMade = true;
+
+                _settingsService.SetModelFilePath(FilePath);
                 OnPropertyChanged();
             }
         }
@@ -67,7 +71,6 @@ namespace UI.ViewModels
                     ModificationsMade = true;
 
                     _settingsService.SetNGram(value);
-                    OnPropertyChanged();
                 }
             }
         }
@@ -91,7 +94,7 @@ namespace UI.ViewModels
 
         public List<string> AllowedFileTypes { get; }
 
-        public LoadingViewModel LoadingVM { get; } = new LoadingViewModel();
+        private LoadingViewModel LoadingVM { get; } = new LoadingViewModel();
 
         private void OpenFileDialog()
         {
@@ -104,23 +107,14 @@ namespace UI.ViewModels
             var dialog = new OpenFileDialog { Filter = filter };
 
             if (dialog.ShowDialog() == true)
-            {
                 FilePath = dialog.FileName;
-                _settingsService.SetModelFilePath(FilePath);
-            }
         }
 
         private void OnReload()
         {
             LoadingVM.IsAnimating = true;
             ModificationsMade = false;
-        }
-
-        private void SaveSettings()
-        {
-            _settingsService.SetModelFilePath(FilePath);
-            _settingsService.SetNGram(SliderValue);
-            _settingsService.SetModelFileType(SelectedFileType);
+            _reloadModelCallback?.Invoke();
         }
     }
 }

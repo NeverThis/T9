@@ -2,18 +2,12 @@
 
 namespace Domain.DomainServices
 {
-    public class ModelTrainer
+    public class ModelTrainer(ICorpusSource source, IProcessor processor)
     {
-        private readonly ICorpusSource _source;
-        private readonly IProcessor _processor;
+        private readonly ICorpusSource _source = source;
+        private readonly IProcessor _processor = processor;
 
-        public ModelTrainer(ICorpusSource source, IProcessor processor)
-        {
-            _source = source;
-            _processor = processor;
-        }
-
-        public void TrainModel(int ngram)
+        public void TrainModel(uint ngram)
         {
             var buffer = new char[ngram];
             int filled = _source.ReadBlock(buffer, 0, ngram);

@@ -1,7 +1,7 @@
 ﻿using Domain.Interfaces;
 using System.IO;
 
-namespace Infrastruktur.FileAccess
+namespace Infrastructure.FileAccess
 {
     public class FileReader : IDisposable, ICorpusSource
     {
@@ -22,9 +22,9 @@ namespace Infrastruktur.FileAccess
             }
         }
 
-        public int ReadBlock(char[] buffer, int offset, int count)
+        public int ReadBlock(char[] buffer, int offset, uint count)
         {
-            return _reader.ReadBlock(buffer, offset, count);
+            return _reader.ReadBlock(buffer, offset, Convert.ToInt32(count));
         }
 
         public int Read()

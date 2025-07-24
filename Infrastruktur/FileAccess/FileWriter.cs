@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Infrastruktur.FileAccess
+namespace Infrastructure.FileAccess
 {
     public class FileWriter
     {
